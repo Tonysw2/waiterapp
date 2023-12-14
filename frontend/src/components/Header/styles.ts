@@ -33,4 +33,8 @@ export const Content = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  @media (max-width: 1280px) {
+    margin: 0 24px;
+  }
 `

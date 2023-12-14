@@ -8,12 +8,22 @@ import { formatCurrency } from '../../utils/formatCurrency'
 import { useEffect } from 'react'
 
 type Props = {
-  order: Order | null
   visible: boolean
+  isLoading: boolean
+  order: Order | null
   onClose: () => void
+  onCancelOrder: () => Promise<void>
+  onChangeOrderStatus: () => Promise<void>
 }
 
-export function OrderModal({ visible, order, onClose }: Props) {
+export function OrderModal({
+  order,
+  visible,
+  isLoading,
+  onClose,
+  onCancelOrder,
+  onChangeOrderStatus,
+}: Props) {
   useEffect(() => {
     function handleKeydown(event: KeyboardEvent) {
       if (event.key === 'Escape') {
@@ -100,11 +110,31 @@ export function OrderModal({ visible, order, onClose }: Props) {
         </OrderDetails>
 
         <Actions>
-          <button type="button" className="btn-cancel">
+          {order.status !== 'DONE' && (
+            <button
+              type="button"
+              className="btn-confirm"
+              disabled={isLoading}
+              onClick={onChangeOrderStatus}
+            >
+              <span>{order.status === 'WAITING' && '🧑‍🍳'}</span>
+              <span>{order.status === 'IN_PRODUCTION' && '✅'}</span>
+              <strong>
+                {order.status === 'WAITING' && 'Iniciar produção'}
+              </strong>
+              <strong>
+                {order.status === 'IN_PRODUCTION' && 'Concluir pedido'}
+              </strong>
+            </button>
+          )}
+
+          <button
+            type="button"
+            disabled={isLoading}
+            className="btn-cancel"
+            onClick={onCancelOrder}
+          >
             <strong>Cancelar Pedido</strong>
-          </button>
-          <button type="button" className="btn-confirm">
-            <strong>Concluir Pedido</strong>
           </button>
         </Actions>
       </ModalBody>

@@ -132,7 +132,19 @@ export const OrderDetails = styled.div`
 
 export const Actions = styled.div`
   display: flex;
-  gap: 56px;
+  flex-direction: column;
+  gap: 16px;
+
+  & > button {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  & > button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 
   .btn-cancel {
     padding: 14px 0;
@@ -157,7 +169,7 @@ export const Actions = styled.div`
 
     border: none;
     border-radius: 44px;
-    background-color: ${({ theme }) => theme.colors.red};
+    background-color: ${({ theme }) => theme.colors.gray600};
 
     & > strong {
       color: ${({ theme }) => theme.colors.gray100};
